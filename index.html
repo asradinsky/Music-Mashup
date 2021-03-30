@@ -7,30 +7,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music Mashup</title>
     <link rel="stylesheet" href="assets/css/foundation.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+
   </head>
-<body>
+<body class="grid-container">
 
-
-<h1>Music Mashup</h1>
- <form> 
-  <div class="grid-x grid-padding-x">
-    <div class="medium-3 cell">
-      <label>Search
-        <input type="text" placeholder="">
-      </label>
-      <button type="button" class="success button">Save</button>
+<main>
+  <h1>Music Mashup</h1>
+  <form> 
+    <div>
+      <div>
+        <label>Search
+          <input type="text" placeholder="">
+        </label>
+          <label>Search Type</label>
+            <select>
+              <option value="lyrics">Lyrics</option>
+              <option value="artist">Artist</option>
+              <option value="song">Song Title</option>
+            </select>
+            <button type="button" class="primary button expanded">Start Search</button>
+      </div>
     </div>
-    <div class="medium-3 cell">
-        <label>Search Type</label>
-          <select>
-            <option value="lyrics">Lyrics</option>
-            <option value="artist">Artist</option>
-            <option value="song">Song Title</option>
-          </select>
-    </div>
-  </div>
-</form>    
-
+  </form>    
+</main>
 
 <script src="assets/js/vendor.js"></script>
 <script src="assets/js/foundation.js"></script>

@@ -23,3 +23,38 @@ h1, h2, h3 {
     font-weight: bold;
     margin: .5em auto 1em;
   }
+
+  .search-form {
+    display: flex;
+    flex-direction: column;
+}
+
+form {
+    width: 100%;
+    padding-top: 20px;
+    margin-left: 10px;
+}
+
+.search-results {
+    width: 100%;
+    padding-top: 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+
+@media screen and (min-width:992px){
+form {
+    width: 25%;
+    padding-top: 20px;
+}
+
+.search-results {
+    width: 75%;
+    padding-top: 20px;
+}
+.search-form {
+    display: flex;
+    flex-direction: row;
+}
+}

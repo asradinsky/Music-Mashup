@@ -1,7 +1,7 @@
-var searchFormEl = document.getElementById("indexForm");
+var searchFormEl = document.getElementById("startSearchBtn");
 
 function searchFormSubmit(event) {
-	//event.preventDefault();
+	event.preventDefault();
   
 	var artistInputVal = document.getElementById("artistInput").value;
 	var songInputVal = document.getElementById("artistInput").value;

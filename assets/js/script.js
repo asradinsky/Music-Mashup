@@ -19,7 +19,7 @@ function artists(file) {
 		var endIndex = file.search("track_share_url") - 3;
 		var singer = file.slice(startIndex, endIndex);
 		startIndex = file.search("track_name") + 13;
-		endIndex = file.search("track_name_translation_list") - 3;
+		endIndex = file.search("track_name_translation_list") - 3;git 
 		var title = file.slice(startIndex, endIndex);
 		startIndex = file.search("album_name") + 13;
 		endIndex = file.search("artist_id") - 3;

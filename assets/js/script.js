@@ -10,6 +10,36 @@ var songInputEL = document.getElementById("artistInput");
 var lyricsInputEL = document.getElementById("artistInput");
 
 
+
+function getParams() {
+	var searchParamArr = document.location.search.split('&');
+
+	var singer = searchParamArr[0].split('=').pop();
+	var title = searchParamArr[1];
+	var lyricsQuery = searchParamArr[2];
+
+	console.log(singer);
+	console.log(title);
+	console.log(lyricsQuery);
+
+	searchMusicMatch(singer, title, lyricsQuery);
+
+}
+
+function searchMusicMatch(singer, title, lyricsQuery) {
+	var queryUrl = "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&q_track=";
+
+	if (singer || title || lyricsQuery) {
+		queryUrl = "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&q_track=" + title + "&q_artist=" + singer + "&f_has_lyrics=" + lyricsQuery + "&quorum_factor=1&apikey=4b67acae62e7e4fd972ec37a8881242b";
+
+		console.log(queryUrl);
+
+		fetch(queryUrl)
+	.then(response => response.text())
+	.then(data => (artists(data)));
+	}
+}
+
 // var url = "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&q_track=" + track + "&q_artist=" + artist + "&f_has_lyrics=" + lyrics + "&quorum_factor=1&apikey=4b67acae62e7e4fd972ec37a8881242b";
 
 function artists(file) {
@@ -19,7 +49,7 @@ function artists(file) {
 		var endIndex = file.search("track_share_url") - 3;
 		var singer = file.slice(startIndex, endIndex);
 		startIndex = file.search("track_name") + 13;
-		endIndex = file.search("track_name_translation_list") - 3;git 
+		endIndex = file.search("track_name_translation_list") - 3;
 		var title = file.slice(startIndex, endIndex);
 		startIndex = file.search("album_name") + 13;
 		endIndex = file.search("artist_id") - 3;
@@ -33,6 +63,7 @@ function artists(file) {
 		file = file.replace("artist_id", "done");
 		cond = file.search("track_name");
 		printResults(singer, title, album);
+
 	}
 
 }
@@ -80,6 +111,7 @@ function searchCriteria() {
 	console.log(lyrics);
 }
 
+	
 
 function printResults(singer, title, album) {
 
@@ -91,12 +123,14 @@ resultCard.append(bandNameEl);
 
 var albumNameEl = document.createElement('h3');
 albumNameEl.textContent = album
-searchResultEl.append(albumNameEl);
+resultCard.append(albumNameEl);
 
 var titleResultEl = document.createElement('p');
 titleResultEl.textContent = title;
-searchResultEl.append(titleResultEl);
+resultCard.append(titleResultEl);
 
 searchResultEl.append(resultCard);
 
 }
+
+getParams();

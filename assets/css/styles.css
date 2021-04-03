@@ -29,6 +29,16 @@ h1, h2, h3 {
     flex-direction: column;
 }
 
+.search-div {
+  height: 100vh;
+}
+
+.search-field {
+  background: #FFF;
+  margin: 20px;
+  padding: 10px;
+}
+
 #indexForm {
   width: 100%;
   padding-top: 0;

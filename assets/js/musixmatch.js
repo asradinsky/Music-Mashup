@@ -30,10 +30,10 @@ function artists(file) {
 		endIndex = file.search("track_name") - 2;
 		var trackid = file.slice(startIndex, endIndex);
 		console.log(title + " by " + singer + " in " + album + " (track id = " + trackid + ")");
-		var lyricsurl = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=" + trackid + "&apikey=4b67acae62e7e4fd972ec37a8881242b"
+		/*var lyricsurl = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=" + trackid + "&apikey=4b67acae62e7e4fd972ec37a8881242b"
 		fetch(lyricsurl)
 			.then(response => response.text())
-			.then(data => (lyric(data)));
+			.then(data => (lyric(data)));*/
 		file = file.replace("artist_name", "done");
 		file = file.replace("track_share_url", "done");
 		file = file.replace("track_name", "done");

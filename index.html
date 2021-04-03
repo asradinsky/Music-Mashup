@@ -14,25 +14,21 @@
 
 <main>
   <h1>Music Mashup</h1>
-  <form> 
+  <form id="indexForm"> 
     <div>
       <div>
-        <label>Search
-          <input type="text" placeholder="">
-        </label>
-          <label>Search Type</label>
-            <select>
-              <option value="lyrics">Lyrics</option>
-              <option value="artist">Artist</option>
-              <option value="song">Song Title</option>
-            </select>
-            <button type="button" class="primary button expanded">Start Search</button>
+        <label>Search:</label>
+          <input id="artistInput" type="text" placeholder="Artist">
+          <input id="songInput" type="text" placeholder="Song Title">
+          <input id="lyricsInput" type="text" placeholder="Lyrics">
+          <button id="startSearchBtn" type="button" class="primary button expanded">Start Search</button>
       </div>
     </div>
   </form>    
 </main>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="assets/js/vendor.js"></script>
 <script src="assets/js/foundation.js"></script>
+<script src="assets/js/script.js"></script>
 </body>
 </html>

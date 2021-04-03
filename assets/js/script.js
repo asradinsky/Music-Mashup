@@ -1,7 +1,7 @@
-var track = prompt("Enter track. Leave blank if unknown.");
-var artist = prompt("Enter artist. Leave blank if unknown.");
-var lyrics = prompt("Enter lyrics. Leave blank if unknown.");
-lyrics = lyrics.replace(" ", "%20");
+// var track = prompt("Enter track. Leave blank if unknown.");
+// var artist = prompt("Enter artist. Leave blank if unknown.");
+// var lyrics = prompt("Enter lyrics. Leave blank if unknown.");
+// lyrics = lyrics.replace(" ", "%20");
 
 var searchResultEl = document.getElementById('search-results');
 
@@ -10,31 +10,7 @@ var songInputEL = document.getElementById("artistInput");
 var lyricsInputEL = document.getElementById("artistInput");
 
 
-var searchCard = document.createElement('div');
-searchCard.classList.add('result-card');
-searchResultEl.append(searchCard);
-
-var bandName = document.createElement('h3');
-bandName.classList.add('band-name');
-bandName.textContent = //band name data from API;
-searchCard.appendChild(bandName);
-
-var queryResult = document.createElement('div');
-queryResult.classList.add('query-description');
-searchResultEl.append(queryResult);
-
-var lyrics = document.createElement('p');
-lyrics.classList.add('band-name');
-lyrics.textContent = //lyrics from API;
-queryResult.appendChild(lyrics);
-
-var album = document.createElement('h2');
-album.classList.add('album-name');
-album.textContent = //album reult from API;
-queryResult.appendChild(album);
-
-
-var url = "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&q_track=" + track + "&q_artist=" + artist + "&f_has_lyrics=" + lyrics + "&quorum_factor=1&apikey=4b67acae62e7e4fd972ec37a8881242b";
+// var url = "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&q_track=" + track + "&q_artist=" + artist + "&f_has_lyrics=" + lyrics + "&quorum_factor=1&apikey=4b67acae62e7e4fd972ec37a8881242b";
 
 function artists(file) {
 	var cond = file.search("track_name");
@@ -56,7 +32,9 @@ function artists(file) {
 		file = file.replace("album_name", "done");
 		file = file.replace("artist_id", "done");
 		cond = file.search("track_name");
+		printResults(singer, title, album);
 	}
+
 }
 
 $('#startSearchBtn').click(function(event){
@@ -66,3 +44,59 @@ $('#startSearchBtn').click(function(event){
 });
 
     
+// var youTubeApiKey = 'AIzaSyAMgCp_vfENiw84ymkpYJyxJrT8pY1BuPI';
+
+
+var searchResultEl = document.getElementById('search-results');
+
+
+
+var searchBtn = document.getElementById("searchBtn");
+
+
+var searchFormEl = document.querySelector(".search-form");
+
+//var api_key = "4b67acae62e7e4fd972ec37a8881242b";
+
+// var url = "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&q_track=" + track + "&q_artist=" + artist + "&f_has_lyrics=" + lyrics + "&quorum_factor=1&apikey=4b67acae62e7e4fd972ec37a8881242b";
+
+searchBtn.addEventListener("click", searchCriteria);
+
+function searchCriteria() {
+
+    var track = document.getElementById("title-input").value;
+    var artist = document.getElementById("artist-input").value;
+    var lyrics = document.getElementById("lyrics-input").value;
+    lyrics = lyrics.replace(" ", "%20");
+
+    var url = "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&q_track=" + track + "&q_artist=" + artist + "&f_has_lyrics=" + lyrics + "&quorum_factor=1&apikey=4b67acae62e7e4fd972ec37a8881242b";
+
+    fetch(url)
+	.then(response => response.text())
+	.then(data => (artists(data)));
+
+	console.log(artist);
+	console.log(track);
+	console.log(lyrics);
+}
+
+
+function printResults(singer, title, album) {
+
+var resultCard = document.createElement("div");
+
+var bandNameEl = document.createElement('h2');
+bandNameEl.textContent = singer
+resultCard.append(bandNameEl);
+
+var albumNameEl = document.createElement('h3');
+albumNameEl.textContent = album
+searchResultEl.append(albumNameEl);
+
+var titleResultEl = document.createElement('p');
+titleResultEl.textContent = title;
+searchResultEl.append(titleResultEl);
+
+searchResultEl.append(resultCard);
+
+}

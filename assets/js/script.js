@@ -9,8 +9,6 @@ var artistInputEL = document.getElementById("artistInput");
 var songInputEL = document.getElementById("artistInput");
 var lyricsInputEL = document.getElementById("artistInput");
 
-
-
 function getParams() {
 	var searchParamArr = document.location.search.split('&');
 
@@ -80,10 +78,7 @@ $('#startSearchBtn').click(function(event){
 
 var searchResultEl = document.getElementById('search-results');
 
-
-
 var searchBtn = document.getElementById("searchBtn");
-
 
 var searchFormEl = document.querySelector(".search-form");
 
@@ -116,6 +111,7 @@ function searchCriteria() {
 function printResults(singer, title, album) {
 
 var resultCard = document.createElement("div");
+resultCard.classList.add("resultCards");
 
 var bandNameEl = document.createElement('h2');
 bandNameEl.textContent = singer

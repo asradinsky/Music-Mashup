@@ -10,23 +10,25 @@
     <link rel="stylesheet" href="assets/css/styles.css">
   </head>
 <body>
-<section>
-        <div class="grid-x grid-padding-x search-div">
-            <div class="cell medium-3 search-field">
-                <label>Search:</label>
-                    <input id="artist-input" type="text" placeholder="Artist">
-                    <input id="title-input" type="text" placeholder="Title">
-                    <input id="lyrics-input" type="text" placeholder="Lyrics">
-                <button id="searchBtn" type="button" class="primary button">Search</button>
-            </div>
-        </div> 
-</section> 
+<main id="resultsMain">
+  <section id="resultSearchColumnFlex">
+      <div id="resultSearchColumn">
+          <h4>Music Mashup</h4>
+          <label>Search:</label>
+              <input id="artist-input" type="text" placeholder="Artist">
+              <input id="title-input" type="text" placeholder="Title">
+              <input id="lyrics-input" type="text" placeholder="Lyrics">
+          <button id="searchBtn" type="button" class="primary button">Search</button>
+      </div>
+  </section> 
 
-<section>
-    <div id="search-results">
-    
-    </div>
-</section>
+  <section id="resultsColumn">
+      <div id="search-results">
+        <h3 id="resultsHdr">Search Results&hellip;</h3>
+      
+      </div>
+  </section>
+</main>
 
 <script src="assets/js/vendor.js"></script>
 <script src="assets/js/foundation.js"></script>

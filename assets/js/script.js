@@ -8,8 +8,8 @@ var apiKey = "60ad462c9bff52e81700f57b3ba8db73";
 var searchResultEl = document.getElementById('search-results');
 
 var artistInputEL = document.getElementById("artistInput");
-var songInputEL = document.getElementById("artistInput");
-var lyricsInputEL = document.getElementById("artistInput");
+var songInputEL = document.getElementById("songInput");
+var lyricsInputEL = document.getElementById("lyricsInput");
 
 function getParams() {
 	var searchParamArr = document.location.search.split('&');
@@ -40,6 +40,13 @@ function searchMusicMatch(singer, title, lyrics) {
 	}
 }
 
+function lyric(file) {
+	let startIndex = file.search("lyrics_body") + 14;
+	let endIndex = startIndex + 250;
+	file = file.slice(startIndex, endIndex) + "...";
+	file = file.replace(/\\n/g, " ");
+	printLyrics(file);
+}
 
 function artists(file) {
 	var cond = file.search("track_name");
@@ -53,6 +60,9 @@ function artists(file) {
 		startIndex = file.search("album_name") + 13;
 		endIndex = file.search("artist_id") - 3;
 		var album = file.slice(startIndex, endIndex);
+		startIndex = file.search("track_id") + 10;
+		endIndex = file.search("track_name") - 2;
+		var trackid = file.slice(startIndex, endIndex);
 		console.log(title + " by " + singer + " in " + album);
 		file = file.replace("artist_name", "done");
 		file = file.replace("track_share_url", "done");
@@ -60,8 +70,13 @@ function artists(file) {
 		file = file.replace("track_name_translation_list", "done");
 		file = file.replace("album_name", "done");
 		file = file.replace("artist_id", "done");
+		file = file.replace("track_id", "done");
 		cond = file.search("track_name");
 		printResults(singer, title, album);
+		var lyricsurl = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=" + trackid + "&apikey=" + apiKey;
+		fetch(lyricsurl)
+			.then(response => response.text())
+			.then(data => (lyric(data)));
 
 	}
 
@@ -126,8 +141,6 @@ function searchLyrics() {
 			.then(data => (lyric(data)));
 }
 
-	
-
 function printResults(singer, title, album) {
 
 var resultCard = document.createElement("div");
@@ -146,6 +159,18 @@ titleResultEl.textContent = title;
 resultCard.append(titleResultEl);
 
 searchResultEl.append(resultCard);
+
+}
+
+function printLyrics(lyrics) {
+	var resultCard = document.createElement("div");
+	resultCard.classList.add("resultCards");
+
+	var lyricsResultEl = document.createElement('p');
+	lyricsResultEl.textContent = lyrics;
+	resultCard.append(lyricsResultEl);
+
+	searchResultEl.append(resultCard);
 
 }
 

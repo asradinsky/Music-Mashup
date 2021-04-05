@@ -5,28 +5,25 @@ var searchResultEl = document.getElementById('search-results');
 
 var artistInputEL = document.getElementById("artistInput");
 var songInputEL = document.getElementById("songInput");
-var lyricsInputEL = document.getElementById("lyricsInput");
 
 function getParams() {
 	var searchParamArr = document.location.search.split('&');
 
 	var singer = searchParamArr[0].split('=').pop();
 	var title = searchParamArr[1];
-	var lyrics = searchParamArr[2];
 
 	console.log(singer);
 	console.log(title);
-	console.log(lyrics);
 
-	searchMusicMatch(singer, title, lyrics);
+	searchMusicMatch(singer, title);
 
 }
 
-function searchMusicMatch(singer, title, lyrics) {
+function searchMusicMatch(singer, title) {
 	var queryUrl = "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&q_track=";
 
-	if (singer || title || lyrics) {
-		queryUrl = "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&q_track=" + title + "&q_artist=" + singer + "&f_has_lyrics=" + lyrics + "&quorum_factor=1&apikey=" + apiKey;
+	if (singer || title) {
+		queryUrl = "https://api.musixmatch.com/ws/1.1/track.search?format=jsonp&callback=callback&q_track=" + title + "&q_artist=" + singer + "&quorum_factor=1&apikey=" + apiKey;
 
 		console.log(queryUrl);
 
@@ -38,43 +35,38 @@ function searchMusicMatch(singer, title, lyrics) {
 
 function lyric(file) {
 	let startIndex = file.search("lyrics_body") + 14;
-	let endIndex = startIndex + 250;
-	file = file.slice(startIndex, endIndex) + "...";
-	file = file.replace(/\\n/g, " ");
-	printLyrics(file);
+	let endIndex = file.search("script_tracking_url") - 3;
+	file = file.slice(startIndex, endIndex);
+	file = file.split("\\n");
+	while (file.length != 0) {
+		let lyrics = file.shift();
+		printLyrics(lyrics);
+	}
 }
+	
+
+var title = "";
+var singer = "";
 
 function artists(file) {
-	var cond = file.search("track_name");
-	while (cond != -1){
-		var startIndex = file.search("artist_name") + 14;
-		var endIndex = file.search("track_share_url") - 3;
-		var singer = file.slice(startIndex, endIndex);
-		startIndex = file.search("track_name") + 13;
-		endIndex = file.search("track_name_translation_list") - 3;
-		var title = file.slice(startIndex, endIndex);
-		startIndex = file.search("album_name") + 13;
-		endIndex = file.search("artist_id") - 3;
-		var album = file.slice(startIndex, endIndex);
-		startIndex = file.search("track_id") + 10;
-		endIndex = file.search("track_name") - 2;
-		var trackid = file.slice(startIndex, endIndex);
-		console.log(title + " by " + singer + " in " + album);
-		file = file.replace("artist_name", "done");
-		file = file.replace("track_share_url", "done");
-		file = file.replace("track_name", "done");
-		file = file.replace("track_name_translation_list", "done");
-		file = file.replace("album_name", "done");
-		file = file.replace("artist_id", "done");
-		file = file.replace("track_id", "done");
-		cond = file.search("track_name");
-		printResults(singer, title, album);
-		var lyricsurl = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=" + trackid + "&apikey=" + apiKey;
-		fetch(lyricsurl)
-			.then(response => response.text())
-			.then(data => (lyric(data)));
-
-	}
+	var startIndex = file.search("artist_name") + 14;
+	var endIndex = file.search("track_share_url") - 3;
+	singer = file.slice(startIndex, endIndex);
+	startIndex = file.search("track_name") + 13;
+	endIndex = file.search("track_name_translation_list") - 3;
+	title = file.slice(startIndex, endIndex);
+	startIndex = file.search("album_name") + 13;
+	endIndex = file.search("artist_id") - 3;
+	var album = file.slice(startIndex, endIndex);
+	startIndex = file.search("track_id") + 10;
+	endIndex = file.search("track_name") - 2;
+	var trackid = file.slice(startIndex, endIndex);
+	console.log(title + " by " + singer + " in " + album);
+	printResults(singer, title, album);
+	var lyricsurl = "https://api.musixmatch.com/ws/1.1/track.lyrics.get?format=jsonp&callback=callback&track_id=" + trackid + "&apikey=" + apiKey;
+	fetch(lyricsurl)
+		.then(response => response.text())
+		.then(data => (lyric(data)));
 
 }
 
@@ -142,17 +134,17 @@ function printResults(singer, title, album) {
 var resultCard = document.createElement("div");
 resultCard.classList.add("resultCards");
 
-var bandNameEl = document.createElement('h2');
+var titleResultEl = document.createElement('h2');
+titleResultEl.textContent = title;
+resultCard.append(titleResultEl);
+
+var bandNameEl = document.createElement('h3');
 bandNameEl.textContent = singer
 resultCard.append(bandNameEl);
 
-var albumNameEl = document.createElement('h3');
+var albumNameEl = document.createElement('p');
 albumNameEl.textContent = album
 resultCard.append(albumNameEl);
-
-var titleResultEl = document.createElement('p');
-titleResultEl.textContent = title;
-resultCard.append(titleResultEl);
 
 searchResultEl.append(resultCard);
 
@@ -171,3 +163,48 @@ function printLyrics(lyrics) {
 }
 
 getParams();
+
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/player_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+function loadClient() {
+gapi.client.setApiKey("AIzaSyCca8rQR8QxV61lfFtVgZNzTRnVP-uG3E0");
+return gapi.client.load("https://www.googleapis.com/discovery/v1/apis/youtube/v3/rest")
+    .then(function() { console.log("GAPI client loaded for API"); },
+          function(err) { console.error("Error loading GAPI client for API", err); });
+}
+// Make sure the client is loaded and sign-in is complete before calling this method.
+function execute(query) {
+return gapi.client.youtube.search.list({
+  "part": [
+    "snippet"
+  ],
+  "q": title + " by " + singer
+})
+    .then(function(response) {
+            // Handle the results here (response.result has the parsed body).
+            Youtubeplayer(response.result.items[0].id.videoId);
+          },
+          function(err) { console.error("Execute error", err); });
+}
+gapi.load("client:auth2", function() {
+gapi.auth2.init({client_id: "373154855588-0drfdp07910ghlo83pthgc9ovh7bskpp.apps.googleusercontent.com"});
+});
+
+// Replace the 'ytplayer' element with an <iframe> and
+// YouTube player after the API code downloads.
+var player;
+function Youtubeplayer(video) {
+player = new YT.Player('ytplayer', {
+  height: '360',
+  width: '439',
+  videoId: video
+});
+}
+
+
+
+
+

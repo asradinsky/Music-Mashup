@@ -17,9 +17,10 @@
           <label>Search:</label>
               <input id="artist-input" type="text" placeholder="Artist">
               <input id="title-input" type="text" placeholder="Title">
-              <input id="lyrics-input" type="text" placeholder="Lyrics">
           <button id="searchBtn" type="button" class="primary button">Search</button>
       </div>
+      <div id="ytplayer"></div>
+      <button class = "primary button" onclick="loadClient(); execute()">Load Video</button>
   </section> 
 
   <section id="resultsColumn">
@@ -30,6 +31,7 @@
   </section>
 </main>
 
+<script src="https://apis.google.com/js/api.js"></script>
 <script src="assets/js/vendor.js"></script>
 <script src="assets/js/foundation.js"></script>
 <script src="assets/js/script.js" ></script>

@@ -1,7 +1,3 @@
-// var track = prompt("Enter track. Leave blank if unknown.");
-// var artist = prompt("Enter artist. Leave blank if unknown.");
-// var lyrics = prompt("Enter lyrics. Leave blank if unknown.");
-// lyrics = lyrics.replace(" ", "%20");
 
 var apiKey = "60ad462c9bff52e81700f57b3ba8db73";
 
